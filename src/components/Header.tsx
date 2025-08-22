@@ -46,11 +46,12 @@ const Header = () => {
     <>
       {showHeader && (
         <motion.header 
-          className="bg-white shadow-lg sticky top-0 z-50"
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+  className="bg-white shadow-lg fixed top-0 left-0 w-full z-50 transition-transform duration-300"
+  style={{
+    transform: showNav ? 'translateY(0)' : 'translateY(-100%)'
+  }}
+>
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <motion.div 
