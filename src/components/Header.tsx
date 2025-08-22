@@ -9,7 +9,7 @@ const Header = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showNav, setShowNav] = useState(true);
   const location = useLocation();
-  const showHeader = false; // Hide header on all pages
+  const showHeader = true; // keep header visible by default
 
   useEffect(() => {
     const handleScroll = () => {
