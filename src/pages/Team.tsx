@@ -13,7 +13,7 @@ const Team = () => {
       image: '/Prof 1.png'
     },
     {
-      name: 'Fatima Khan',
+      name: 'Imran Khan',
       position: 'Head of Tax Services',
       education: 'MBA Finance, LUMS',
       experience: '12 years',
@@ -29,7 +29,7 @@ const Team = () => {
       image: '/Prof 3.png'
     },
     {
-      name: 'Sarah Ahmed',
+      name: 'Iftikhar Ahmed',
       position: 'Client Relations Manager',
       education: 'BBA, IBA Karachi',
       experience: '8 years',
