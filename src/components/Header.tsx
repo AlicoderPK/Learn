@@ -120,7 +120,6 @@ const Header = () => {
             )}
           </div>
         </motion.header>
-      )}
       
       {/* Navigation Overlay for All Pages */}
       {!showHeader && (
