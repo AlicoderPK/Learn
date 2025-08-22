@@ -6,13 +6,26 @@ import { Menu, X, Building2 } from 'lucide-react';
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showNav, setShowNav] = useState(true);
   const location = useLocation();
   const showHeader = false; // Hide header on all pages
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
+      const currentScrollY = window.scrollY;
+      
+      setIsScrolled(currentScrollY > 50);
+      
+      // Hide nav when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowNav(false);
+      } else if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setShowNav(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -116,7 +129,7 @@ const Header = () => {
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
           style={{
-            transform: isScrolled ? 'translateY(-100%)' : 'translateY(0)',
+            transform: showNav ? 'translateY(0)' : 'translateY(-100%)',
             transition: 'transform 0.3s ease-in-out'
           }}
         >
