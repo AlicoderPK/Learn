@@ -1,35 +1,44 @@
-import React, { useState, useEffect } from 'react';
+// File: Header.jsx
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu, X, Building2 } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [showNav, setShowNav] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const lastY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const currentScrollY = window.scrollY;
-      
-      setIsScrolled(currentScrollY > 50);
-      
-      // Hide nav when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      const currentY = window.scrollY;
+
+      // Add background when scrolled
+      setScrolled(currentY > 50);
+
+      // Hide/show navigation based on scroll direction
+      if (currentY > lastY.current && currentY > 100) {
+        // Scrolling down - hide nav
         setShowNav(false);
-      } else if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setIsOpen(false); // Close mobile menu when hiding
+      } else if (currentY < lastY.current) {
+        // Scrolling up - show nav
         setShowNav(true);
       }
-      
-      setLastScrollY(currentScrollY);
+
+      lastY.current = currentY;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -43,15 +52,20 @@ const Header = () => {
 
   return (
     <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
         showNav ? 'translate-y-0' : '-translate-y-full'
+      } ${
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      animate={{ y: showNav ? 0 : -100 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20 pt-6">
+        <div className={`flex justify-between items-center transition-all duration-300 ${
+          scrolled ? 'h-16 pt-0' : 'h-20 pt-6'
+        }`}>
+          {/* Logo */}
           <motion.div 
             className="flex items-center space-x-3"
             whileHover={{ scale: 1.05 }}
@@ -60,21 +74,33 @@ const Header = () => {
             <img 
               src="/Logo.png" 
               alt="AR Raheem Consulting" 
-              className="h-10 w-auto"
+              className={`w-auto transition-all duration-300 ${
+                scrolled ? 'h-8' : 'h-10'
+              }`}
             />
-            <span className="text-2xl font-bold text-white">AR Raheem Consulting</span>
+            <span className={`font-bold transition-all duration-300 ${
+              scrolled 
+                ? 'text-xl text-gray-900' 
+                : 'text-2xl text-white'
+            }`}>
+              AR Raheem Consulting
+            </span>
           </motion.div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
                   location.pathname === item.path
-                    ? 'text-blue-200 bg-white/20'
-                    : 'text-white hover:text-blue-200 hover:bg-white/10'
+                    ? scrolled 
+                      ? 'text-blue-600 bg-blue-100' 
+                      : 'text-blue-200 bg-white/20'
+                    : scrolled
+                      ? 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'
+                      : 'text-white hover:text-blue-200 hover:bg-white/10'
                 }`}
               >
                 {item.name}
@@ -82,11 +108,16 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:text-blue-200 focus:outline-none"
+              className={`focus:outline-none transition-colors duration-300 ${
+                scrolled 
+                  ? 'text-gray-700 hover:text-blue-600' 
+                  : 'text-white hover:text-blue-200'
+              }`}
+              aria-label="Toggle menu"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -94,32 +125,41 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <motion.div 
-            className="md:hidden"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/10 backdrop-blur-sm rounded-md mb-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                    location.pathname === item.path
-                      ? 'text-blue-200 bg-white/20'
+        <motion.div
+          initial={false}
+          animate={{
+            opacity: isOpen ? 1 : 0,
+            height: isOpen ? 'auto' : 0,
+            marginBottom: isOpen ? '8px' : '0px'
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className="md:hidden overflow-hidden"
+        >
+          <div className={`px-2 pt-2 pb-3 space-y-1 sm:px-3 rounded-md transition-colors duration-300 ${
+            scrolled 
+              ? 'bg-gray-100/90 backdrop-blur-sm' 
+              : 'bg-white/10 backdrop-blur-sm'
+          }`}>
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
+                  location.pathname === item.path
+                    ? scrolled
+                      ? 'text-blue-600 bg-blue-100'
+                      : 'text-blue-200 bg-white/20'
+                    : scrolled
+                      ? 'text-gray-700 hover:text-blue-600 hover:bg-gray-200'
                       : 'text-white hover:text-blue-200 hover:bg-white/10'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </motion.header>
   );
