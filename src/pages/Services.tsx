@@ -524,7 +524,6 @@ const Services = () => {
       <section className="py-20 bg-white relative overflow-hidden">
         {/* Background Tax Elements */}
         <div className="absolute inset-0 opacity-3">
-          <div className="absolute top-20 left-10 text-9xl font-bold text-blue-600 transform rotate-12">₹</div>
           <div className="absolute top-40 right-20 text-8xl font-bold text-green-600 transform -rotate-12">%</div>
           <div className="absolute bottom-32 left-1/4 text-7xl font-bold text-purple-600 transform rotate-45">TAX</div>
           <div className="absolute bottom-20 right-1/3 text-6xl font-bold text-orange-600 transform -rotate-45">NTN</div>
