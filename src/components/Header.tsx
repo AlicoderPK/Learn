@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X, Building2 } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const showHeader = false; // Hide header on all pages
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -100,7 +112,9 @@ const Header = () => {
       {/* Navigation Overlay for All Pages */}
       {!showHeader && (
         <motion.div 
-          className="fixed top-0 left-0 right-0 z-50 bg-transparent"
+          className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+            isScrolled ? '-translate-y-full' : 'translate-y-0'
+          } bg-transparent`}
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
@@ -112,8 +126,12 @@ const Header = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Building2 className="h-8 w-8 text-white" />
-                <span className="text-2xl font-bold text-white">AR Consulting</span>
+                <img 
+                  src="/Logo.png" 
+                  alt="AR Raheem Consulting" 
+                  className="h-10 w-auto"
+                />
+                <span className="text-2xl font-bold text-white">AR Raheem Consulting</span>
               </motion.div>
 
               {/* Desktop Navigation */}

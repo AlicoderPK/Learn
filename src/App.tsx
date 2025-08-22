@@ -1,5 +1,7 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -11,9 +13,20 @@ import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
 import TaxCalculator from './pages/TaxCalculator';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <Header />
         <motion.main 

@@ -15,12 +15,16 @@ const Footer = () => {
             className="col-span-1 md:col-span-2"
           >
             <div className="flex items-center space-x-3 mb-4">
-              <Building2 className="h-8 w-8 text-blue-400" />
-              <span className="text-2xl font-bold">AR Consulting</span>
+              <img 
+                src="/Logo.png" 
+                alt="AR Raheem Consulting" 
+                className="h-8 w-auto"
+              />
+              <span className="text-2xl font-bold">AR Raheem Consulting</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Leading architectural and engineering consulting firm providing innovative solutions 
-              for construction projects across Pakistan. Excellence in every project.
+              Leading tax consultation and business advisory firm providing innovative solutions 
+              for tax compliance and business registration across Pakistan. Excellence in every service.
             </p>
             <div className="flex items-center space-x-2 mb-2">
               <Phone className="h-4 w-4 text-blue-400" />

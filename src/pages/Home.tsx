@@ -167,7 +167,7 @@ const Home = () => {
               <span className="text-blue-300"> Made Simple</span>
             </motion.h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              Professional tax consultation and business services in Pakistan with 10+ years of experience. 
+              Professional tax consultation and business services in Pakistan with 10+ years of experience from AR Raheem Consulting. 
               Expert NTN registration, income tax filing, sales tax registration, and company formation services.
             </p>
             <motion.div

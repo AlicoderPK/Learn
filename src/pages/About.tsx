@@ -77,6 +77,7 @@ const About = () => {
             className="text-center"
           >
             <h1 className="text-5xl md:text-6xl font-bold mb-6">About AR Consulting</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">About AR Raheem Consulting</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               Pakistan's premier tax consultation and legal advisory firm, providing expert services 
               in tax compliance, business registration, and legal documentation since 2017
@@ -102,7 +103,7 @@ const About = () => {
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded in 2017, AR Consulting began with a clear mission: to provide comprehensive 
+                Founded in 2017, AR Raheem Consulting began with a clear mission: to provide comprehensive 
                 tax consultation and legal advisory services that simplify complex regulatory 
                 requirements for individuals and businesses across Pakistan.
               </p>
@@ -195,6 +196,7 @@ const About = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
@@ -210,6 +212,7 @@ const About = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
                 className="text-center p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100"
