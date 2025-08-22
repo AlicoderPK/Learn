@@ -43,13 +43,12 @@ const Header = () => {
 
   return (
     <motion.header 
-      className="fixed top-0 left-0 right-0 z-50 bg-transparent transition-transform duration-300 ease-in-out"
+      className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300 ease-in-out ${
+        showNav ? 'translate-y-0' : '-translate-y-full'
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{
-        transform: showNav ? 'translateY(0)' : 'translateY(-100%)'
-      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20 pt-6">
