@@ -103,7 +103,7 @@ const Team = () => {
                 <div className="flex justify-center mb-4">
                   <div className="w-32 h-32 rounded-full overflow-hidden">
                     <img
-                      src="/Prof 4.png"
+                      src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover object-center"
                     />
